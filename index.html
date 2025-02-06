@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grocery Cart</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        position: relative;
+        background-color: #f8f8f8;
+        padding: 20px;
+        background-image: url('images/background.png'); /* Add background image */
+        background-size: cover; /* Cover the entire header */
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* Ensure the image doesn't repeat */
+        height: 100px; /* Adjusted height */
+        width: 100%; /* Ensure the image covers the full width */
+      }
+      header img {
+        display: block;
+        margin: 0 auto;
+        /* Removed width adjustment */
+      }
+      header h1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        font-size: 2em;
+        color: #333;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+      .item {
+        display: inline-block;
+        margin: 15px; /* Adjusted margin */
+        padding: 15px; /* Adjusted padding */
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 180px; /* Adjusted width */
+      }
+      .item img {
+        width: 70%; /* Adjusted width */
+      }
+      .item button {
+        margin: 5px;
+      }
+      .total {
+        margin-top: 20px;
+        font-size: 1.5em;
+      }
+      .total + button {
+        margin-top: 20px;
+      }
+      .item .buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .item .buttons button {
+        margin: 0 5px; /* Adjusted margin */
+      }
+      .tabs-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px 50px; /* Adjusted margin */
+      }
+      .tabs {
+        display: flex;
+      }
+      .tabs button {
+        margin: 0 10px;
+        padding: 10px 20px;
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-size: 1em;
+        border-bottom: 2px solid transparent;
+      }
+      .tabs button.active {
+        border-bottom: 2px solid #333;
+      }
+      .search-bar {
+        margin-left: auto;
+        padding: 10px; /* Increase padding */
+        font-size: 1em; /* Increase font size */
+        width: 200px; /* Increase width */
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Grocery Cart</h1>
+    </header>
+    <main>
+      <div class="tabs-container">
+        <div class="tabs">
+          <button id="fruitsTab" class="active" onclick="showSection('fruits')">
+            Fruits
+          </button>
+          <button id="vegetablesTab" onclick="showSection('vegetables')">
+            Vegetables
+          </button>
+        </div>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-bar"
+          placeholder="Search..."
+          onkeypress="handleSearch(event)"
+        />
+      </div>
+      <div id="fruits" class="section">
+        <div class="item">
+          <img src="images/banana.png" alt="Banana" />
+          <h2>Banana</h2>
+          <p>Price: $1</p>
+          <div class="buttons">
+            <button onclick="removeItem('banana', 1)">-</button>
+            <span id="bananaCount">0</span>
+            <button onclick="addItem('banana', 1)">+</button>
+          </div>
+        </div>
+        <div class="item">
+          <img src="images/apple.png" alt="Apple" />
+          <h2>Apple</h2>
+          <p>Price: $3</p>
+          <div class="buttons">
+            <button onclick="removeItem('apple', 3)">-</button>
+            <span id="appleCount">0</span>
+            <button onclick="addItem('apple', 3)">+</button>
+          </div>
+        </div>
+        <div class="item">
+          <img src="images/orange.png" alt="Orange" />
+          <h2>Orange</h2>
+          <p>Price: $2</p>
+          <div class="buttons">
+            <button onclick="removeItem('orange', 2)">-</button>
+            <span id="orangeCount">0</span>
+            <button onclick="addItem('orange', 2)">+</button>
+          </div>
+        </div>
+      </div>
+      <div id="vegetables" class="section hidden">
+        <div class="item">
+          <img src="images/carrot.png" alt="Carrot" />
+          <h2>Carrot</h2>
+          <p>Price: $2</p>
+          <div class="buttons">
+            <button onclick="removeItem('carrot', 2)">-</button>
+            <span id="carrotCount">0</span>
+            <button onclick="addItem('carrot', 2)">+</button>
+          </div>
+        </div>
+        <div class="item">
+          <img src="images/potato.png" alt="Potato" />
+          <h2>Potato</h2>
+          <p>Price: $1</p>
+          <div class="buttons">
+            <button onclick="removeItem('potato', 1)">-</button>
+            <span id="potatoCount">0</span>
+            <button onclick="addItem('potato', 1)">+</button>
+          </div>
+        </div>
+        <div class="item">
+          <img src="images/corn.png" alt="Corn" />
+          <h2>Corn</h2>
+          <p>Price: $3</p>
+          <div class="buttons">
+            <button onclick="removeItem('corn', 3)">-</button>
+            <span id="cornCount">0</span>
+            <button onclick="addItem('corn', 3)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="total">Total Amount: $<span id="totalAmount">0</span></div>
+      <button onclick="placeOrder()">Place Order</button>
+      <button onclick="clearCart()">Clear Cart</button>
+    </main>
+    <script>
+      let totalAmount = 0;
+      let itemCounts = {
+        banana: 0,
+        apple: 0,
+        orange: 0,
+        carrot: 0,
+        potato: 0,
+        corn: 0,
+      };
+
+      function addItem(item, price) {
+        totalAmount += price;
+        itemCounts[item]++;
+        document.getElementById("totalAmount").innerText = totalAmount;
+        document.getElementById(item + "Count").innerText = itemCounts[item];
+      }
+
+      function removeItem(item, price) {
+        if (totalAmount >= price && itemCounts[item] > 0) {
+          totalAmount -= price;
+          itemCounts[item]--;
+          document.getElementById("totalAmount").innerText = totalAmount;
+          document.getElementById(item + "Count").innerText = itemCounts[item];
+        }
+      }
+
+      function placeOrder() {
+        alert("Order placed successfully!");
+      }
+
+      function clearCart() {
+        totalAmount = 0;
+        for (let item in itemCounts) {
+          itemCounts[item] = 0;
+          document.getElementById(item + "Count").innerText = 0;
+        }
+        document.getElementById("totalAmount").innerText = totalAmount;
+      }
+
+      function showSection(section) {
+        document.getElementById("fruits").classList.add("hidden");
+        document.getElementById("vegetables").classList.add("hidden");
+        document.getElementById(section).classList.remove("hidden");
+        document.getElementById("fruitsTab").classList.remove("active");
+        document.getElementById("vegetablesTab").classList.remove("active");
+        document.getElementById(section + "Tab").classList.add("active");
+      }
+
+      function handleSearch(event) {
+        if (event.key === "Enter") {
+          const query = event.target.value.toLowerCase();
+          const items = document.querySelectorAll(".item");
+          let foundInFruits = false;
+          let foundInVegetables = false;
+
+          items.forEach((item) => {
+            const itemName = item.querySelector("h2").innerText.toLowerCase();
+            if (itemName.includes(query)) {
+              item.style.display = "inline-block";
+              if (item.closest("#fruits")) {
+                foundInFruits = true;
+              } else if (item.closest("#vegetables")) {
+                foundInVegetables = true;
+              }
+            } else {
+              item.style.display = "none";
+            }
+          });
+
+          if (foundInFruits) {
+            showSection('fruits');
+          } else if (foundInVegetables) {
+            showSection('vegetables');
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
