@@ -1,0 +1,119 @@
+ body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        position: relative;
+        background-color: #f8f8f8;
+        padding: 20px;
+        background-image: url('images/background.png'); /* Add background image */
+        background-size: cover; /* Cover the entire header */
+        background-position: center; /* Center the image */
+        background-repeat: no-repeat; /* Ensure the image doesn't repeat */
+        height: 100px; /* Adjusted height */
+        width: 100%; /* Ensure the image covers the full width */
+      }
+      header img {
+        display: block;
+        margin: 0 auto;
+        /* Removed width adjustment */
+      }
+      header h1 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+        font-size: 2em;
+        color: #333;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+      .item {
+        display: inline-block;
+        margin: 15px; /* Adjusted margin */
+        padding: 15px; /* Adjusted padding */
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 180px; /* Adjusted width */
+      }
+      .item img {
+        width: 70%; /* Adjusted width */
+      }
+      .item button {
+        margin: 5px;
+      }
+      .total {
+        margin-top: 20px;
+        font-size: 1.5em;
+      }
+      .total + button {
+        margin-top: 20px;
+      }
+      .item .buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .item .buttons button {
+        margin: 0 5px; /* Adjusted margin */
+      }
+      .tabs-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 20px 50px; /* Adjusted margin */
+      }
+      .tabs {
+        display: flex;
+      }
+      .tabs button {
+        margin: 0 10px;
+        padding: 10px 20px;
+        cursor: pointer;
+        border: none;
+        background: none;
+        font-size: 1em;
+        border-bottom: 2px solid transparent;
+      }
+      .tabs button.active {
+        border-bottom: 2px solid #128810; /* Green underline */
+        color: #128810; /* Green text */
+      }
+      .search-bar {
+        margin-left: auto;
+        padding: 10px; /* Increase padding */
+        font-size: 1em; /* Increase font size */
+        width: 200px; /* Increase width */
+      }
+      .hidden {
+        display: none;
+      }
+      .place-order-btn {
+        background-color: #128810; /* Green background */
+        color: white; /* White text */
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 1em;
+        border-radius: 5px; /* Rounded corners */
+      }
+      .clear-cart-btn {
+        background-color: white; /* White background */
+        color: #128810; /* Green text */
+        border: 2px solid #128810; /* Green outline */
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 1em;
+        border-radius: 5px; /* Rounded corners */
+      }
+      .button-container {
+        margin-top: 20px;
+      }
+      .button-container button {
+        margin: 0 10px;
+      }
